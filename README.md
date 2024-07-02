@@ -14,7 +14,7 @@ P.S. I've added so many strange tests and I still think it's even less than need
 
 P.P.S. My score is 80% for silver and 76% for gold (seriously, who will remember all `Dir/Time` methods?)
 
-<img width="1451" alt="image" src="https://github.com/Krugloff/prep_test/assets/1621036/e898ba5a-3c79-4fce-8228-325effa838e2">
+<img width="1445" alt="image" src="https://github.com/Krugloff/prep_test/assets/1621036/a42ebd7a-0595-4b6f-9926-971091276281">
 
 Installation
 ----------------------------------------------------------------------------------------------------
