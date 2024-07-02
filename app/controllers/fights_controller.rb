@@ -34,13 +34,7 @@ class FightsController < ApplicationController
     end
 
     def new_fight = Fight.new(permitted_params)
-
-    # TODO: yeah, it looks weird but #find will add extra sql request
-    def existing_fight  
-      Fight.eager_load(:rounds, :ring).where(id: params[:id]).to_a.first.tap do
-        raise ActiveRecord::RecordNotFound if _1.nil?
-      end
-    end
+    def existing_fight = Fight.eager_load(:ring).find(params[:id])
 
     def enemy
       @enemy ||= fight.current_enemy
