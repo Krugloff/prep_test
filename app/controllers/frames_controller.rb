@@ -8,12 +8,12 @@ class FramesController < ApplicationController
 
   before_action :check_fight
 
-  def show = render locals: { frames:, frame: prepared_frame(frame) }
+  def show = render locals: { frames: prepared_frames, frame: prepared_frame(frame) }
 
   def index
     render locals: {
       replay: fight.as_json(only: %i(id score), methods: %i(band_name)),
-      frames: fight.rounds.map { prepared_frame(_1) }
+      frames: frames.includes(:enemy).map { prepared_frame(_1) }
     }
   end
 
@@ -21,27 +21,27 @@ class FramesController < ApplicationController
 
     def check_fight = fight.score.present? || redirect_to(fight_path(fight))
 
-    # TODO: yeah, it looks weird but #find will add extra sql request
     def fight
-      @fight ||= Fight
-        .eager_load(:band, rounds: [:puppets, :enemy])
-        .where(id: params[:replay_id])
-        .to_a.first.tap { raise ActiveRecord::RecordNotFound if _1.nil? }
+      @fight ||= Fight.eager_load(:band).find(params[:replay_id])
     end
     
+    # anyway I load all frames for navigation so I don't need extra request
     def frame
-      @frame ||= fight
-        .rounds
-        .find { _1[:enemy_id].eql?(params[:id].to_i) }
-        .tap { raise ActiveRecord::RecordNotFound if _1.nil? }
+      @frame ||= frames
+        .find { _1.enemy_id.eql?(params[:id].to_i) }
+        .tap { raise ActiveRecord::RecordNotFound unless _1 }
     end
 
-    def frames
-      @rounds ||= fight.rounds.uniq(&:enemy_id).map do
+    def prepared_frames
+      @prepared_frames ||= frames.map do
         klass = [_1.win? ? :success : :failure]
         klass.push(:active) if _1.enemy_id.eql?(frame.enemy_id)
         _1.as_json(only: %i(fight_id enemy_id)).merge('class' => klass.join(' '))
       end
+    end
+
+    def frames
+      @frames ||= fight.rounds.includes(:puppets)
     end
 
     # TODO: I don't like the difference between enemy hash and frame open struct
