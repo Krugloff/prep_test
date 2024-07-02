@@ -1,0 +1,21 @@
+<article id='replay'>
+  <header>
+    <%= render 'components/frames_nav', frames: fight['frames'] %>
+  </header>
+
+  <section>
+    <fieldset>
+      <legend><h1><%= fight['band_name'] %></h1></legend>
+      <div id='score'>
+        <div>Your score</div>
+        <div><%= fight['score'] %>%</div>
+      </div>
+    </fieldset>
+  </section>
+
+  <footer id='back_link'>
+    <%= link_to 'Back to Rings', rings_path %>
+    |
+    <%= link_to 'See as List', replay_frames_path(fight['id']) %>
+  </footer>
+</article>

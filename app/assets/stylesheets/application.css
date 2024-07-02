@@ -1,0 +1,117 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+pre {
+  background-color: lightgrey;
+  padding: 10px 10px;
+}
+
+fieldset {
+  input[type=submit] {
+    cursor: pointer;
+    margin-top: 1em;
+  }
+
+  input[type=submit],
+  legend > h1 {
+    color: white;
+    background-color: black;
+    border-radius: 0;
+    border: 0;
+    padding: 8px;
+  }
+}
+
+footer#back_link {
+  text-align: center;
+}
+
+li.success a, span.success {
+  color: green;
+}
+
+li.failure a, span.failure {
+  color: red;
+}
+
+/* it will problem here with rename of model from punch to round for example */
+form#new_round {
+  #round_comment {
+    /* resize: none; */
+    min-width: 40%;
+  }
+}
+
+article#replay {
+  > section {
+    text-align: center;
+
+    #score {
+      font-size: 5em;
+    }
+  }
+}
+
+nav#frame_links {
+  border-bottom: 1px solid black;
+  text-align: center;
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      display: inline-block;
+    
+      &:not(:last-child):after {
+        display: inline-block;
+        color: #000;
+        content: '...';
+        font-size: 80%;
+        font-weight: bold;
+        padding: 0 3px;
+      }
+
+      &.active a {
+        font-size: 2em;
+      }
+    }
+  }
+}
+
+#fight, #rings {
+  & > header {
+    text-align: center;
+  }
+}
+
+#frame, #frames, #new_round {
+  label {
+    display: block;
+    width: fit-content;
+
+    input[type=checkbox] {
+      accent-color: black;
+    }
+
+    input[type=checkbox] {
+      /* markdown render <p> even for short answers through A, B, C etc */
+      & + p, & + span + p {
+        display: inline-block;
+      }
+    }
+  }
+}

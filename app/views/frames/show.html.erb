@@ -1,0 +1,13 @@
+<article id='frame'>
+  <header>
+    <%= render 'components/frames_nav', frames: %>
+  </header>
+
+  <section>
+    <%= render 'frame', frame: frame %>
+  </section>
+
+  <footer id='back_link'>
+    <%= link_to 'Back to Score', replay_path(frame.fight_id) %>
+  </footer>
+</article>

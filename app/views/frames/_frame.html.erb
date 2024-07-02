@@ -1,0 +1,28 @@
+<fieldset disabled>
+  <legend><%= frame.enemy['html_title'] %></legend>
+  <div><%= frame.enemy['html_body'] %></div>
+
+  <div>
+    <%# TODO: it's too large (explicit html label/input working well) %>
+    <%# object option is required to show checked options %>
+    <%# since helper method looking for instance variables at the first %>
+    <%= collection_check_boxes :frame, :puppet_names, frame.existing_puppets, :name, :html_body, object: frame do |b| %>
+      <%= b.label do %>
+        <%= b.check_box %>
+        <% (b.object.correct ? :success : :failure).tap do |klass| %>
+          <span class='<%= klass %>'>(<%= b.value %>)</span>
+        <% end %>
+        <%= b.text %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <cite>
+    <%= frame.comment %>
+  </cite>
+
+  <div>
+    <hr>
+    <%= frame.enemy['html_comment'] %>
+  </div>
+</fieldset>

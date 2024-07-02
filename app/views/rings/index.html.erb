@@ -1,0 +1,77 @@
+<article id='rings'>
+  <header>
+    <h1>
+      <% if rings.present? %>
+        Choose the ring and start a fight!
+      <% else %>
+        Run <mark><code>bundle exec rake db:seed</code></mark> to create the rings.
+      <% end %>
+    </h1>
+  </header>
+
+  <% rings.each do |ring| %>
+    <section>
+      <fieldset>
+        <legend>
+          <h1><%= ring['band_name'] %></h1>
+        </legend>
+
+        <div>
+          Enemies: <%= ring['maximum_score'] %>
+          <br>
+          Treshold: <%= ring['treshold'] %>%
+        </div>
+
+        <div>
+          <% ring['fights'].partition { _1['score'] }.tap do |finished_fights, active_fights| %>
+            <% if active_fights.present? %>
+              <div>
+                <header>
+                  <h3>Active fights</h3>
+                </header>
+
+                <section>
+                  <ul>
+                    <% active_fights.each do |fight| %>
+                      <li>
+                        <%= fight['rounds_length'] %>/<%= ring['maximum_score'] %> 
+                        - resume <%= link_to 'fight', fight_path(fight['id']) %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </section>
+              </div>
+            <% end %>
+
+            <% if finished_fights.present? %>
+              <div>
+                <header>
+                  <h3>Finished fights</h3>
+                </header>
+
+                <section>
+                  <ul>
+                    <% finished_fights.each do |fight| %>
+                      <li>
+                        <%= fight['score'] %>%
+                        - watch <%= link_to 'replay', replay_path(fight['id']) %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </section>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div>
+          <%= form_with model: Fight.new(ring_id: ring['id']) do |f| %>
+            <%= f.hidden_field :ring_id %>
+            <%= f.submit 'Start new fight!' %>
+          <% end %>
+        </div>
+
+      </fieldset>
+    </section>
+  <% end %>
+</article>

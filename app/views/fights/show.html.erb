@@ -1,0 +1,56 @@
+<article id='fight'>
+  <header>
+    <h1><%= coursor %> / <%= maximum_score %></h1>
+  </header>
+
+  <section>
+    <%= form_with model: [fight, round], id: 'new_round' do |f| %>
+      <%= f.hidden_field :enemy_id %>
+
+      <fieldset>
+        <legend><%= enemy['html_title'] %></legend>
+        <div><%= enemy['html_body'] %></div>
+
+        <%# TODO: check limit before submit %>
+        <div 
+          data-controller='check-box-group' 
+          data-check-box-group-limit-value=<%= enemy['hp'] %>>
+          <header>
+            <h3>Choose <%= enemy['hp'] %></h3>
+          </header>
+
+          <section>
+            <%= f.collection_check_boxes :puppet_names, puppets, :name, :html_body,
+              include_hidden: false do |b| %>
+              <%= b.label do %>
+                <%= b.check_box(data: { action: 'click->check-box-group#check' }) %>
+                (<%= b.value %>)
+                <%= b.text %>
+              <% end %>
+            <% end %>
+          </section>
+        </div>
+
+        <div>
+          <%# TODO: I want have it same resizable on small screens as legend %>
+          <%= f.text_area :comment, rows: 5 %>
+        </div>
+
+        <div>
+          <% flash[:errors].to_a.each do |message| %>
+            <mark><%= message %></mark>
+            <br>
+          <% end %>
+        </div>
+
+        <div>
+          <%= f.submit 'Round!' %>
+        </div>
+      </fieldset>
+    <% end %>
+  </section>
+
+  <footer id='back_link'>
+    <%= link_to 'Back to Rings', rings_path %>
+  </footer>
+</article

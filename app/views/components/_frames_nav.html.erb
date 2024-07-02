@@ -1,0 +1,9 @@
+<nav id='frame_links'>
+  <ul>
+    <% frames.each_with_index do |frame, i| %>
+      <li class='<%= frame['class'] %>'>
+        <%= link_to i.next, replay_frame_path(frame['fight_id'], frame['enemy_id']) %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
